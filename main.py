@@ -1,6 +1,6 @@
-import openai
+
 from dotenv import load_dotenv
-import os
+
 from openai import OpenAI
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -8,8 +8,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 client=OpenAI()
-
-
 
 app = FastAPI()
 
@@ -38,11 +36,3 @@ async def chat_with_gpt(request: ChatRequest):
     except Exception as e:
        raise HTTPException(status_code=500, detail=str(e))
 
-# if __name__ == "__main__":
-#     while True:
-#         user_input = input("You: ")
-#         if user_input.lower() in ["exit", "quit"]:
-#             print("Goodbye!")
-#             break
-#         response = chat_with_gpt(user_input)
-#         print(f"GPT: {response}") 
