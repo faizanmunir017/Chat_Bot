@@ -15,6 +15,9 @@ class ChatController:
             print("result is ",result)
             return {"response": result}
         except Exception as e:
+            
+                
+            print(f"Error in chat_with_gpt: {e}")  # Log the exception
             raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
         
 chat_controller = ChatController()
