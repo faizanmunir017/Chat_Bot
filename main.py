@@ -1,51 +1,27 @@
-
-
-#Chat Completion API : 
-import os
-from dotenv import load_dotenv
-from openai import OpenAI
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from config import Config
+from controllers.chat_controller import chat_controller
 
 
-
-
-load_dotenv()
-openai_api_key = os.getenv("OPENAI_API_KEY")
-frontend_origin = os.getenv("FRONTEND_ORIGIN")
-
-client=OpenAI()
+try:
+    Config.validate()  
+except EnvironmentError as e:
+    print(f"Configuration Error: {e}")
+    exit(1)  
 
 app = FastAPI()
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_origin],    
+    allow_origins=[Config.FRONTEND_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-class ChatRequest(BaseModel):
-    prompt: str
 
-@app.post("/chat")
-async def chat_with_gpt(request: ChatRequest):
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini", 
-            messages=[
-                {"role": "system", "content": "I am a helpful AI chat bot."},
-                {"role": "user", "content": request.prompt}
-            ]
-        )
+app.include_router(chat_controller.router)
 
-        print("Response is : ", response)
-        return {"response": response.choices[0].message.content}
-    except Exception as e:
-       
-       print(e)
-       
-       raise HTTPException(status_code=500, detail=str(e))
 
