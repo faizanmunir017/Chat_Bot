@@ -5,12 +5,12 @@ class ChatService:
        
         self.client=OpenAI()
 
-    def chat_with_gpt(self, prompt: str) -> str:
+    async def chat_with_gpt(self, prompt: str) -> str:
         try:
             response = self.client.chat.completions.create(
                 model="gpt-4o-mini",  
                 messages=[
-                    {"role": "system", "content": "I am a helpful AI chatbot."},
+                    {"role": "system", "content": "I am a helpful AI chatbot. You must remember the context of chats earlier "},
                     {"role": "user", "content": prompt},
                 ],
             )
