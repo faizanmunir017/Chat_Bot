@@ -16,7 +16,7 @@ except EnvironmentError as e:
     exit(1)  
 
 
-limiter = Limiter(key_func=get_remote_address, default_limits=["5/minute"])
+limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 
 app = FastAPI()
 
