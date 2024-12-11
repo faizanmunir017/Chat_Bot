@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables from the .env file
+load_dotenv()  
 
 class Config:
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -9,10 +9,7 @@ class Config:
 
     @staticmethod
     def validate():
-        """
-        Check if all required environment variables are loaded.
-        Raises an exception if any are missing.
-        """
+        
         missing_keys = []
         required_keys = ["OPENAI_API_KEY", "FRONTEND_ORIGIN"]
         
