@@ -1,12 +1,16 @@
 from openai import OpenAI
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
+import os
+from langsmith import traceable
 
 class ChatService:
     def __init__(self, api_key: str, vector_store: InMemoryVectorStore):
         self.client = OpenAI(api_key=api_key)
         self.vector_store = vector_store 
 
+       
+    @traceable(project_name="ChatBot_Interactions")
     async def chat_with_gpt(self, prompt: str) -> str:
         try:
             docs = self.vector_store.similarity_search(prompt, k=2)  
@@ -15,6 +19,7 @@ class ChatService:
             
             full_prompt = f"Here is some context:\n{context}\n\nUser's query: {prompt}"
 
+            print("in Chat Service")
             response = self.client.chat.completions.create(
                 model="gpt-4o-mini",  
                 messages=[

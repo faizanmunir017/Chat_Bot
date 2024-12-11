@@ -1,19 +1,22 @@
-import asyncio
+
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import dotenv
 from dotenv import load_dotenv
+from langsmith import traceable
+import os
  
 load_dotenv()
 
+@traceable(project_name="ChatBot Vector Store")
 def load_pages(file_path):
     loader = PyPDFLoader(file_path)
     pages=loader.load()
 
     return pages
 
+@traceable(project_name="ChatBot Vector Store")
 def create_vector_store(file_path):
     pages = load_pages(file_path)  
     text_splitter = RecursiveCharacterTextSplitter(

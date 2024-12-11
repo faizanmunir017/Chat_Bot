@@ -6,6 +6,7 @@ load_dotenv()
 class Config:
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN")
+    LANGCHAIN_API_KEY=os.getenv("LANGCHAIN_API_KEY")
 
     @staticmethod
     def validate():
