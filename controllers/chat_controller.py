@@ -7,6 +7,7 @@ from slowapi.util import get_remote_address
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain.schema.retriever import BaseRetriever
 from config.db import get_database
+from utils.chat_helper import get_last_messages
 
 limiter = Limiter(key_func=get_remote_address)
 
@@ -51,7 +52,7 @@ class ChatController:
     async def get_last_messages(self):
 
         try:
-            messages= await self.chat_service.get_last_messages()
+            messages= await get_last_messages(self.chat_service.collection)
 
             if not messages:
                 return {"messages":[]}
