@@ -4,7 +4,7 @@ from services.chat_service import ChatService
 from config.env_validation import Config
 from slowapi import Limiter
 from slowapi.util import get_remote_address
-from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_pinecone import PineconeVectorStore
 from langchain.schema.retriever import BaseRetriever
 from config.db import get_database
 from utils.chat_helper import get_last_messages
@@ -12,7 +12,7 @@ from utils.chat_helper import get_last_messages
 limiter = Limiter(key_func=get_remote_address)
 
 class ChatController:
-    def __init__(self, limiter: Limiter,vector_store:InMemoryVectorStore,retriever:BaseRetriever):
+    def __init__(self, limiter: Limiter,vector_store:PineconeVectorStore,retriever:BaseRetriever):
         self.router = APIRouter()
         self.limiter = limiter
         self.vector_store=vector_store

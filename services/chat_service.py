@@ -11,9 +11,10 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from utils.chat_helper import store_message, get_last_messages, summarize_context
 from typing import List
+from langchain_pinecone import PineconeVectorStore
 
-class ChatService:
-    def __init__(self, api_key: str, vector_store: InMemoryVectorStore, retriever: BaseRetriever, db_collection: Collection):
+class ChatService:   
+    def __init__(self, api_key: str, vector_store: PineconeVectorStore, retriever: BaseRetriever, db_collection: Collection):
         self.model = ChatOpenAI(api_key=api_key, model="gpt-4o-mini", temperature=0.7)
         self.vector_store = vector_store 
         self.retriever = retriever
